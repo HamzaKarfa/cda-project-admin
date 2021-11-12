@@ -42,7 +42,9 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
                    
                     filter: JSON.stringify(params.filter),
                 };
+                
                 url = `${apiUrl}/${resource}?${stringify(query)}`;
+                console.log( url);
                 break;
             }
             case GET_ONE:
@@ -108,11 +110,17 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
         const { headers, json } = response;
         switch (type) {
             case GET_LIST:
+
+                return {
+                    data: json,
+                    total: json.length
+                    
+                };
             case GET_MANY_REFERENCE:
                 return {
                     data: json,
                     total: parseInt(
-                        json.lenght,
+                        json.length,
                         10
                     ),
                 };

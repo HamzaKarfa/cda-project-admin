@@ -5,22 +5,27 @@ import { Responsive, userLogout } from 'react-admin';
 import MenuItem from '@material-ui/core/MenuItem';
 import Button from '@material-ui/core/Button';
 import ExitIcon from '@material-ui/icons/PowerSettingsNew';
-
-const MyLogoutButton = ({ userLogout, ...rest }) => (
+import {useLogout } from 'ra-core';
+const MyLogoutButton = ({ ...rest }) => (
     <Responsive
         xsmall={
-            <MenuItem
-                onClick={userLogout}
+            <Button
+                onClick={useLogout('/login')}
                 {...rest}
+                variant='contained'
+                size="small"
+                color='primary'
             >
                 <ExitIcon /> Logout
-            </MenuItem>
+            </Button>
         }
         medium={
             <Button
-                onClick={userLogout}
+                onClick={useLogout('/login')}
                 size="small"
                 {...rest}
+                variant='contained'
+                color='primary'
             >
                 <ExitIcon /> Logout
             </Button>

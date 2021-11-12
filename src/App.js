@@ -12,8 +12,12 @@ import CategoryCreate from "./components/Admin/Category/CategoryCreate";
 import customRest from "./components/Admin/customRest";
 import CategoryEdit from "./components/Admin/Category/CategoryEdit";
 import CategoryShow from "./components/Admin/Category/CategoryShow";
-
-
+import { UserCreate } from "./components/Admin/Users/UserCreate";
+import { Layout, Notification } from 'react-admin';
+import LeftMenu from "./components/Admin/menu";
+import { UserMenu } from "ra-ui-materialui";
+import { Route } from 'react-router-dom';
+import Accueil from "./components/Accueil";
 const httpClient = (url, options = {}) => {
     options.headers = new Headers({ 
         Accept: 'application/json', 
@@ -28,12 +32,18 @@ const httpClient = (url, options = {}) => {
     return fetchUtils.fetchJson(url, options);
 };
 const dataProvider = customRest(ENTRYPOINT, httpClient);
+const MyNotification = props => <Notification {...props} autoHideDuration={5000} />;
+
+
+const MyLayout = (props) => <Layout {...props} notification={MyNotification} menu={LeftMenu} />;
+
+
 const App = () => (
-    <Admin loginPage={MyLoginPage} dataProvider={dataProvider}  logoutButton={MyLogoutButton} authProvider={authProviderLogin}>
+    <Admin dashboard={Accueil} loginPage={MyLoginPage} logoutButton={MyLogoutButton} dataProvider={dataProvider}   authProvider={authProviderLogin}>
         <Resource name="categories" show={CategoryShow} list={CategoryList}/>
         <Resource name="sub_categories" list={ListGuesser} show={ShowGuesser}/>
         <Resource name="products" list={ListGuesser} create={EditGuesser} edit={EditGuesser} show={ShowGuesser}/>
-        <Resource name="users" list={ListGuesser} create={EditGuesser} edit={EditGuesser} show={ShowGuesser}/>
+        <Resource name="users" list={ListGuesser} create={UserCreate} edit={EditGuesser} show={ShowGuesser}/>
     </Admin>        
 
 );
