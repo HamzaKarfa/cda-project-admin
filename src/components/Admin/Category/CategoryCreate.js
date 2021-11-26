@@ -7,7 +7,6 @@ const ResourceName = () => {
 }
 
 const CategoryCreate = (props) => {
-    console.log(props);
     return (
     <List {...props}>
         <>
@@ -17,7 +16,6 @@ const CategoryCreate = (props) => {
                 <TextField source="name" />
                 <TextField source="image" />
                 <TextField source="description" />
-               
             </Datagrid>
         </>
     </List>

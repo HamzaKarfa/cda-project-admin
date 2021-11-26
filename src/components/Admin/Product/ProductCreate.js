@@ -1,0 +1,22 @@
+import * as React from 'react';
+import { Create, SimpleForm, TextInput, ImageField, ImageInput, NumberInput, DateInput,ReferenceInput,SelectInput, required } from 'react-admin';
+import { ENTRYPOINT } from '../../../entrypoint';
+
+const ProductCreate = (props) => {
+    
+    return (
+    <Create {...props}>
+            <SimpleForm>
+                <TextInput source="name" />
+                <TextInput source="origin" />
+                <NumberInput source="price" />
+                <ReferenceInput label="sub_categories" source="sub_categories.id" reference="sub_categories" validate={[required()]}>
+                    <SelectInput optionText="name" />
+                </ReferenceInput>
+                <ImageInput {...props} accept="image/*" multiple={false} source="image">
+                    <ImageField source="src" title="image"/>
+                </ImageInput>
+            </SimpleForm>
+    </Create>
+)}
+export default ProductCreate

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Datagrid, DateField, TextField, List, useResourceContext } from 'react-admin';
+import { Create, SimpleForm, Datagrid, DateField, TextField, List, useResourceContext } from 'react-admin';
 
 const ResourceName = () => {
     const { resource } = useResourceContext();
@@ -7,7 +7,6 @@ const ResourceName = () => {
 }
 
 const CategoryEdit = (props) => {
-    console.log(props);
     return (
     <List {...props}>
         <>

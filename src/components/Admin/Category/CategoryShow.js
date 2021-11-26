@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Show, SimpleShowLayout, RichTextField, DateField, TextField, useResourceContext } from 'react-admin';
 
 const CategoryShow = (props) => {
-    console.log(props);
     return (
     <Show {...props}>
         <SimpleShowLayout>

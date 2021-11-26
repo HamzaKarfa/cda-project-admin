@@ -18,10 +18,11 @@ import LeftMenu from "./components/Admin/menu";
 import { UserMenu } from "ra-ui-materialui";
 import { Route } from 'react-router-dom';
 import Accueil from "./components/Accueil";
+import ProductCreate from "./components/Admin/Product/ProductCreate";
+import addUploadFeature from "./UploadFileFeature";
 const httpClient = (url, options = {}) => {
     options.headers = new Headers({ 
-        Accept: 'application/json', 
-        'Content-Type':'application/json',
+        'Accept': 'application/json', 
         'Content-Range':'1',
         'Access-Control-Expose-Headers': 'x-total-count',
     });
@@ -32,18 +33,21 @@ const httpClient = (url, options = {}) => {
     return fetchUtils.fetchJson(url, options);
 };
 const dataProvider = customRest(ENTRYPOINT, httpClient);
-const MyNotification = props => <Notification {...props} autoHideDuration={5000} />;
-
-
-const MyLayout = (props) => <Layout {...props} notification={MyNotification} menu={LeftMenu} />;
-
+const uploadCapableDataProvider = addUploadFeature(dataProvider);
 
 const App = () => (
-    <Admin dashboard={Accueil} loginPage={MyLoginPage} logoutButton={MyLogoutButton} dataProvider={dataProvider}   authProvider={authProviderLogin}>
+    <Admin 
+        dashboard={Accueil} 
+        loginPage={MyLoginPage} 
+        logoutButton={MyLogoutButton} 
+        dataProvider={uploadCapableDataProvider}   
+        authProvider={authProviderLogin}
+    >
         <Resource name="categories" show={CategoryShow} list={CategoryList}/>
         <Resource name="sub_categories" list={ListGuesser} show={ShowGuesser}/>
-        <Resource name="products" list={ListGuesser} create={EditGuesser} edit={EditGuesser} show={ShowGuesser}/>
+        <Resource name="products" list={ListGuesser} create={ProductCreate} edit={EditGuesser} show={ShowGuesser}/>
         <Resource name="users" list={ListGuesser} create={UserCreate} edit={EditGuesser} show={ShowGuesser}/>
+        {/* <Resource name="orders" list={ListGuesser} create={UserCreate} edit={EditGuesser} show={ShowGuesser}/> */}
     </Admin>        
 
 );

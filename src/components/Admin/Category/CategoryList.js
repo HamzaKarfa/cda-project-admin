@@ -7,7 +7,6 @@ const ResourceName = () => {
 }
 
 const CategoryList = (props) => {
-    console.log(props);
     return (
     <List {...props}>
         <>

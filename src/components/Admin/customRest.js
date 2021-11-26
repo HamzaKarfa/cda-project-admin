@@ -1,5 +1,7 @@
 import { stringify } from 'query-string';
 import { fetchUtils } from 'react-admin';
+import { ENTRYPOINT } from '../../entrypoint';
+import { loadBody } from './LoadBody';
 
 const GET_LIST = 'GET_LIST';
 const GET_ONE = 'GET_ONE';
@@ -30,8 +32,7 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
      * @param {Object} params The REST request params, depending on the type
      * @returns {Object} { url, options } The HTTP request parameters
      */
-    const convertRESTRequestToHTTP = (type, resource, params) => {
-        console.log(type);
+    const convertRESTRequestToHTTP = async (type, resource, params) => {
         let url = '';
         const options = {};
         switch (type) {
@@ -39,12 +40,10 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
                 const { field, order } = params.sort;
                 const query = {
                     sort: JSON.stringify([field, order]),
-                   
+                    page: JSON.stringify(params.pagination.page),
                     filter: JSON.stringify(params.filter),
                 };
-                
                 url = `${apiUrl}/${resource}?${stringify(query)}`;
-                console.log( url);
                 break;
             }
             case GET_ONE:
@@ -75,12 +74,21 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
                 options.body = JSON.stringify(params.data);
                 break;
             case CREATE:
+                let form = new FormData() 
+                Object.keys(params.data).forEach((key) => {
+                    if (key === 'image') {
+                        form.append('image', params.data[key].rawFile)
+                    }else if (key === 'sub_categories'){
+                        form.append('subCategory', params.data[key].id)
+                    }else{
+                        form.append(key, params.data[key])
+                    }
+                });
                 url = `${apiUrl}/${resource}`;
                 options.method = 'POST';
-                options.body = JSON.stringify(params.data);
+                options.body = form
                 break;
             case DELETE_MANY:
-                const test = []
                 const query = {
                     filter: JSON.stringify({ id: params.ids}),
                 };
@@ -110,7 +118,6 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
         const { headers, json } = response;
         switch (type) {
             case GET_LIST:
-
                 return {
                     data: json,
                     total: json.length
@@ -137,14 +144,20 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
      * @param {Object} payload Request parameters. Depends on the request type
      * @returns {Promise} the Promise for a REST response
      */
-    return (type, resource, params) => {
-        const { url, options } = convertRESTRequestToHTTP(
-            type,
-            resource,
-            params
-        );
-        return httpClient(url, options).then(response =>
-            convertHTTPResponseToREST(response, type, resource, params)
-        );
+    return async (type, resource, params) => {
+        console.log(params, type, resource);
+
+
+            const { url, options } = await convertRESTRequestToHTTP(
+                type,
+                resource,
+                params
+            );
+            
+            return httpClient(url, options).then(response =>
+                convertHTTPResponseToREST(response, type, resource, params)
+            );
+
     };
+
 };
