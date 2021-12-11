@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Create, SimpleForm, TextInput, DateInput, ReferenceManyField, Datagrid, TextField, DateField, EditButton, required } from 'react-admin';
+import { Create, SimpleForm, TextInput } from 'react-admin';
 
 export const UserCreate = (props) => (
     <Create {...props}>

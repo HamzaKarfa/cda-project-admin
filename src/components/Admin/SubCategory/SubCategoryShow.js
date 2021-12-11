@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { Show, SimpleShowLayout, RichTextField, DateField, TextField, useResourceContext, ImageField, ChipField } from 'react-admin';
 
-const CategoryShow = (props) => {
+const SubCategoryShow = (props) => {
     return (
     <Show {...props}>
         <SimpleShowLayout>
             <TextField source="id" />
             <TextField source="name" />
-            <TextField source="description" />
+            <ChipField source="category.name" />
             <ImageField source="image.imagePath"/>
 
         </SimpleShowLayout>
     </Show>
 )}
-export default CategoryShow
+export default SubCategoryShow

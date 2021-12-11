@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Create, SimpleForm, TextInput, ImageField, ImageInput, NumberInput, DateInput,ReferenceInput,SelectInput, required } from 'react-admin';
-import { ENTRYPOINT } from '../../../entrypoint';
+
 
 const ProductCreate = (props) => {
     
@@ -9,7 +9,14 @@ const ProductCreate = (props) => {
             <SimpleForm>
                 <TextInput source="name" />
                 <TextInput source="origin" />
-                <NumberInput source="price" />
+                <div style={{display:'flex'}}>
+                    <NumberInput source="price" />
+                    <SelectInput source="priceType" choices={[
+                        { id: '/kg', name: '/kg' },
+                        { id: "l'unité", name: "l'unité" },
+                    ]} />
+                </div>
+
                 <ReferenceInput label="sub_categories" source="sub_categories.id" reference="sub_categories" validate={[required()]}>
                     <SelectInput optionText="name" />
                 </ReferenceInput>

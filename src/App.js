@@ -7,19 +7,29 @@ import { ENTRYPOINT } from "./entrypoint";
 
 import MyLoginPage from './components/auth/login';
 import MyLogoutButton from './components/auth/logout';
-import CategoryList from "./components/Admin/Category/CategoryList";
-import CategoryCreate from "./components/Admin/Category/CategoryCreate";
-import customRest from "./components/Admin/customRest";
-import CategoryEdit from "./components/Admin/Category/CategoryEdit";
-import CategoryShow from "./components/Admin/Category/CategoryShow";
-import { UserCreate } from "./components/Admin/Users/UserCreate";
-import { Layout, Notification } from 'react-admin';
-import LeftMenu from "./components/Admin/menu";
-import { UserMenu } from "ra-ui-materialui";
-import { Route } from 'react-router-dom';
-import Accueil from "./components/Accueil";
-import ProductCreate from "./components/Admin/Product/ProductCreate";
 import addUploadFeature from "./UploadFileFeature";
+import customRest from "./components/Admin/customRest";
+
+import Accueil from "./components/Accueil";
+import CategoryList from "./components/Admin/Category/CategoryList";
+import CategoryShow from "./components/Admin/Category/CategoryShow";
+import CategoryCreate from "./components/Admin/Category/CategoryCreate";
+import CategoryEdit from "./components/Admin/Category/CategoryEdit";
+import SubCategoryList from "./components/Admin/SubCategory/SubCategoryList";
+import SubCategoryShow from "./components/Admin/SubCategory/SubCategoryShow";
+import SubCategoryCreate from "./components/Admin/SubCategory/SubCategoryCreate";
+import SubCategoryEdit from "./components/Admin/SubCategory/SubCategoryEdit";
+import ProductList from "./components/Admin/Product/ProductList";
+import ProductCreate from "./components/Admin/Product/ProductCreate";
+import ProductShow from "./components/Admin/Product/ProductShow";
+import ProductEdit from "./components/Admin/Product/ProductEdit";
+
+import { UserCreate } from "./components/Admin/Users/UserCreate";
+import OrderList from "./components/Admin/Orders/OrderList";
+import OrderShow from "./components/Admin/Orders/OrderShow";
+import OrderProductsShow from "./components/Admin/OrderProducts/OrderProductsShow";
+import OrderProductsList from "./components/Admin/OrderProducts/OrderProductsList";
+
 const httpClient = (url, options = {}) => {
     options.headers = new Headers({ 
         'Accept': 'application/json', 
@@ -43,11 +53,12 @@ const App = () => (
         dataProvider={uploadCapableDataProvider}   
         authProvider={authProviderLogin}
     >
-        <Resource name="categories" show={CategoryShow} list={CategoryList}/>
-        <Resource name="sub_categories" list={ListGuesser} show={ShowGuesser}/>
-        <Resource name="products" list={ListGuesser} create={ProductCreate} edit={EditGuesser} show={ShowGuesser}/>
+        <Resource name="categories" show={CategoryShow} list={CategoryList} create={CategoryCreate} edit={CategoryEdit}/>
+        <Resource name="sub_categories" show={SubCategoryShow} list={SubCategoryList} create={SubCategoryCreate} edit={SubCategoryEdit}/>
+        <Resource name="products" list={ProductList} create={ProductCreate} edit={ProductEdit} show={ProductShow}/>
         <Resource name="users" list={ListGuesser} create={UserCreate} edit={EditGuesser} show={ShowGuesser}/>
-        {/* <Resource name="orders" list={ListGuesser} create={UserCreate} edit={EditGuesser} show={ShowGuesser}/> */}
+        <Resource name="orders" list={OrderList} show={OrderShow}/>
+        <Resource name="order_products" list={OrderProductsList} show={OrderProductsShow}/>
     </Admin>        
 
 );

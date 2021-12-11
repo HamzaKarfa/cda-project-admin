@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EditButton , DeleteButton, Datagrid, DateField, TextField, List, useResourceContext, ImageField, ChipField } from 'react-admin';
+import { EditButton, SimpleForm , DeleteButton, Datagrid, TextField, List, useResourceContext, ImageField, ChipField } from 'react-admin';
 import { makeStyles } from '@material-ui/core/styles';
 
 const ResourceName = () => {
@@ -11,7 +11,7 @@ const useImageFieldStyles = makeStyles(theme => ({
         width: 150,
     }
 }));
-const CategoryList = (props) => {
+const SubCategoryList = (props) => {
     const imageFieldClasses = useImageFieldStyles();
     
     return (
@@ -21,12 +21,15 @@ const CategoryList = (props) => {
             <Datagrid  rowClick="show">
                 <TextField source="id" />
                 <TextField source="name" />
-                <TextField source="description" />
                 <ImageField classes={imageFieldClasses} source="image.imagePath"/>
+                <ChipField source="category.name" />
                 <EditButton />
-                <DeleteButton />
+                <SimpleForm>
+                    <DeleteButton />
+                </SimpleForm>
+                
             </Datagrid>
         </>
     </List>
 )}
-export default CategoryList
+export default SubCategoryList

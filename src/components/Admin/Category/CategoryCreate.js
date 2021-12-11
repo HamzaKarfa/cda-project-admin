@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Datagrid, DateField, TextField, List, useResourceContext } from 'react-admin';
+import { useResourceContext, Create, SimpleForm, TextInput, ImageField, ImageInput, NumberInput, DateInput,ReferenceInput,SelectInput, required } from 'react-admin';
 
 const ResourceName = () => {
     const { resource } = useResourceContext();
@@ -8,16 +8,14 @@ const ResourceName = () => {
 
 const CategoryCreate = (props) => {
     return (
-    <List {...props}>
-        <>
-         <ResourceName /> {/* renders 'posts' */}
-            <Datagrid rowClick="edit">
-                <TextField source="id" />
-                <TextField source="name" />
-                <TextField source="image" />
-                <TextField source="description" />
-            </Datagrid>
-        </>
-    </List>
+    <Create {...props}>
+        <SimpleForm>
+            <TextInput source="name" />
+            <TextInput source="description" />
+            <ImageInput {...props} accept="image/*" multiple={false} source="image">
+                <ImageField source="src" title="image"/>
+            </ImageInput>
+        </SimpleForm>
+    </Create>
 )}
 export default CategoryCreate

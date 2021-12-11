@@ -1,7 +1,6 @@
 import { stringify } from 'query-string';
 import { fetchUtils } from 'react-admin';
 import { ENTRYPOINT } from '../../entrypoint';
-import { loadBody } from './LoadBody';
 
 const GET_LIST = 'GET_LIST';
 const GET_ONE = 'GET_ONE';
@@ -35,6 +34,8 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
     const convertRESTRequestToHTTP = async (type, resource, params) => {
         let url = '';
         const options = {};
+        let form = new FormData() 
+
         switch (type) {
             case GET_LIST: {
                 const { field, order } = params.sort;
@@ -69,17 +70,18 @@ export default function customRest(apiUrl, httpClient = fetchUtils.fetchJson) {
                 break;
             }
             case UPDATE:
+
                 url = `${apiUrl}/${resource}/${params.id}`;
                 options.method = 'PUT';
-                options.body = JSON.stringify(params.data);
+                options.body =  JSON.stringify(params.data);
                 break;
             case CREATE:
-                let form = new FormData() 
+                form = new FormData() 
                 Object.keys(params.data).forEach((key) => {
                     if (key === 'image') {
                         form.append('image', params.data[key].rawFile)
-                    }else if (key === 'sub_categories'){
-                        form.append('subCategory', params.data[key].id)
+                    }else if (key === 'sub_categories' || key === 'categories'){
+                        form.append(key, params.data[key].id)
                     }else{
                         form.append(key, params.data[key])
                     }
